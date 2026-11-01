@@ -14,8 +14,10 @@ public class MediaAsset
 
   //fk
   public int ListingCaseId { get; set; }
+  public ListingCase ListingCase { get; set; }
   public string UserId { get; set; }
 
+  public User User { get; set; }
   public bool IsDeleted { get; set; }
 
 }

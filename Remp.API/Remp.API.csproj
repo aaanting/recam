@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="../Remp.DataAccess/Remp.DataAccess.csproj" />
     <ProjectReference Include="..\Remp.Models\Remp.Models.csproj" />
   </ItemGroup>
 

@@ -24,5 +24,17 @@ public class ListingCase
   public PropertyType PropertyType { get; set; }
   public SaleCategory SaleCategory { get; set; }
   public ListcaseStatus ListcaseStatus { get; set; }
+
+  // listingcase -- User N:1
   public string UserId { get; set; }
+  public User User { get; set; }
+
+  // listingcase -- CaseContact 1:N
+  public List<CaseContact> CaseContacts { get; set; }
+
+  // listingcase -- MediaAsset 1:N
+  public List<MediaAsset> MediaAssets { get; set; }
+
+  //agenct -- listingcase N:N
+  public List<Agent> Agents { get; set; }
 }
