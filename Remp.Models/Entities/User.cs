@@ -14,4 +14,10 @@ public class User : IdentityUser
   //User --- MediaAsset 1:N
   public List<MediaAsset> MediaAssets { get; set; }
 
+  //user -- PhotographyCompany 1:1
+  public PhotographyCompany? PhotographyCompany { get; set; }
+
+  //user -- agent 1:1
+  public Agent? Agent { get; set; }
+
 }

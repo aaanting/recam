@@ -16,4 +16,7 @@ public class Agent
   // Agent--PhotographyCompany N:N
   public List<PhotographyCompany> PhotographyCompanies { get; set; }
 
+  //Agent -- User 1:1
+  public User User { get; set; }
+
 }

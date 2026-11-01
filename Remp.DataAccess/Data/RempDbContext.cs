@@ -15,7 +15,6 @@ public class RempDbContext : IdentityDbContext<User>
   public DbSet<MediaAsset> MediaAssets { get; set; }
   public DbSet<PhotographyCompany> PhotographyCompanies { get; set; }
 
-
   public RempDbContext(DbContextOptions<RempDbContext> options) : base(options)
   {
   }

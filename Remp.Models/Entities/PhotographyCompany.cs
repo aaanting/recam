@@ -9,4 +9,6 @@ public class PhotographyCompany
 
   //Agent - photography company N:N
   public List<Agent> Agents { get; set; }
+
+  public User User { get; set; }
 }
