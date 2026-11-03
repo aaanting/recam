@@ -22,5 +22,20 @@ namespace Remp.API.Controllers
 
             return Ok(users);
         }
+
+        [HttpGet("search")]
+        public ActionResult GetAgentByEmail([FromQuery] string? email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                return BadRequest("Email cannot be empty.");
+            }
+            var agent = _dbContext.Agents.FirstOrDefault(a => a.User.Email == email);
+            if (agent == null)
+            {
+                return NotFound("Agent not found");
+            }
+            return Ok(agent);
+        }
     }
 }
