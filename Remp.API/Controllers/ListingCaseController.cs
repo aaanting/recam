@@ -6,11 +6,11 @@ namespace Remp.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ListingCasesController : ControllerBase
+    public class ListingCaseController : ControllerBase
     {
         private RempDbContext _dbContext;
 
-        public ListingCasesController(RempDbContext rempDb)
+        public ListingCaseController(RempDbContext rempDb)
         {
             _dbContext = rempDb;
         }
@@ -21,6 +21,17 @@ namespace Remp.API.Controllers
             var listingCases = _dbContext.ListingCases.Where(l => !l.IsDeleted).ToList();
 
             return Ok(listingCases);
+        }
+
+        [HttpGet("{id}")]
+        public ActionResult GetListingCaseDetailsById(int id)
+        {
+            var listingCase = _dbContext.ListingCases.FirstOrDefault(l => !l.IsDeleted && l.Id == id);
+            if (listingCase == null)
+            {
+                return NotFound("Listing case not found");
+            }
+            return Ok(listingCase);
         }
 
     }
