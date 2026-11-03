@@ -70,5 +70,19 @@ namespace Remp.API.Controllers
             return Created($"GetListingCaseDetailsById/{listingCase.Id}", listingCase);
         }
 
+        //delete listing case
+        [HttpDelete("{listingCaseId}")]
+        public ActionResult DeleteListingCase(int listingCaseId)
+        {
+            var listingCase = _dbContext.ListingCases.FirstOrDefault(l => l.Id == listingCaseId && !l.IsDeleted);
+            if (listingCase == null)
+            {
+                return NotFound("Listing case not found");
+            }
+            listingCase.IsDeleted = true;
+            _dbContext.SaveChanges();
+            return NoContent();
+        }
+
     }
 }
