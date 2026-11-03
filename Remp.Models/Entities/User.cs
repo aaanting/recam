@@ -5,8 +5,8 @@ namespace Remp.Models.Entities;
 
 public class User : IdentityUser
 {
-  public bool IsDeleted { get; set; }
-  public DateTime CreatedAt { get; set; }
+  public bool IsDeleted { get; set; } = false;
+  public DateTime CreatedAt { get; set; } = DateTime.Now;
 
   //User --- ListingCase 1:N
   public List<ListingCase> ListingCases { get; set; }
