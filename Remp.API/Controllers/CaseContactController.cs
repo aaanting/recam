@@ -25,8 +25,20 @@ namespace Remp.API.Controllers
             {
                 return NotFound();
             }
-            return Ok(caseContact);
+            return CreatedAtAction(nameof(GetCaseContactById), new { id = caseContact.ContactId }, caseContact);
+        }
 
+
+        [HttpGet("ListingCase/{listingCaseId}")]
+        public ActionResult GetCaseContactByListingCaseId(int listingCaseId)
+        {
+            bool caseExist = _dbContext.ListingCases.Any(l => l.Id == listingCaseId && !l.IsDeleted);
+            if (!caseExist)
+            {
+                return NotFound("Listing case not found");
+            }
+            var caseContacts = _dbContext.CaseContacts.Where(c => c.ListingCaseId == listingCaseId).ToList();
+            return Ok(caseContacts);
         }
 
         [HttpPost]
