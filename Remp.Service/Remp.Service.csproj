@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="../Remp.Models/Remp.Models.csproj" />
+  </ItemGroup>
+
 </Project>
