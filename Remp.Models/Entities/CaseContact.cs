@@ -13,6 +13,8 @@ public class CaseContact
   public string ProfileUrl { get; set; }
   public string Email { get; set; }
   public string PhoneNumber { get; set; }
+
+  //FK
   public int ListingCaseId { get; set; }
   public ListingCase ListingCase { get; set; }
 
