@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using Remp.Common.Helpers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -40,21 +42,41 @@ namespace Remp.Service.Services
         }
 
         //Register agent
-        public Task<RegisterResultDto> RegisterAgent(RegisterAgentRequestDto registerAgentDto)
+        public async Task<RegisterResultDto> RegisterAgent(CreateAgentRequestDto createAgentRequestDto, string adminId)
         {
-            return RegisterUser(registerAgentDto.Email, registerAgentDto.Password, "Agent", user =>
+            var photographyCompany = await _dbContext.PhotographyCompanies
+                .FirstOrDefaultAsync(p => p.Id == adminId && !p.User.IsDeleted);
+
+            if (photographyCompany == null)
+            {
+                return new RegisterResultDto
+                {
+                    Result = IdentityResult.Failed(new IdentityError
+                    {
+                        Code = "PhotographyCompanyNotFound",
+                        Description = "Photography company not found."
+                    })
+                };
+            }
+
+            string password = PasswordHelper.GeneratePassword();
+
+            var result = await RegisterUser(createAgentRequestDto.Email, password, "Agent", user =>
             {
                 var agent = new Agent
                 {
                     Id = user.Id,
-                    AgentFirstName = registerAgentDto.AgentFirstName,
-                    AgentLastName = registerAgentDto.AgentLastName,
-                    AvatarUrl = registerAgentDto.AvatarUrl?.Trim() ?? string.Empty,
-                    CompanyName = registerAgentDto.CompanyName?.Trim() ?? string.Empty
+                    AgentFirstName = createAgentRequestDto.AgentFirstName,
+                    AgentLastName = createAgentRequestDto.AgentLastName,
+                    AvatarUrl = createAgentRequestDto.AvatarUrl?.Trim() ?? string.Empty,
+                    CompanyName = createAgentRequestDto.CompanyName?.Trim() ?? string.Empty,
+                    PhotographyCompanies = new List<PhotographyCompany> { photographyCompany }
                 };
 
                 _dbContext.Agents.Add(agent);
             });
+
+            return result;
         }
 
         private async Task<RegisterResultDto> RegisterUser(
