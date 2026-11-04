@@ -15,14 +15,12 @@ namespace Remp.API.Controllers
         private readonly IAuthService _authService;
         private readonly IValidator<RegisterRequestDto> _registerValidator;
         private readonly IValidator<LoginRequestDto> _loginValidator;
-        private readonly IValidator<RegisterAgentRequestDto> _registerAgentValidator;
 
-        public AuthController(IAuthService authService, IValidator<RegisterRequestDto> registerValidator, IValidator<LoginRequestDto> loginValidator, IValidator<RegisterAgentRequestDto> registerAgentValidator)
+        public AuthController(IAuthService authService, IValidator<RegisterRequestDto> registerValidator, IValidator<LoginRequestDto> loginValidator)
         {
             _authService = authService;
             _registerValidator = registerValidator;
             _loginValidator = loginValidator;
-            _registerAgentValidator = registerAgentValidator;
         }
 
         //Register new admin user
@@ -45,30 +43,6 @@ namespace Remp.API.Controllers
             return StatusCode(StatusCodes.Status201Created, new
             {
                 Message = "User Registration successful",
-                Email = result.Email,
-                Token = result.Token
-            });
-        }
-
-        //Register new agent user
-        [HttpPost("register-agent")]
-        public async Task<IActionResult> RegisterAgent([FromBody] RegisterAgentRequestDto registerAgentDto)
-        {
-            var validation = await _registerAgentValidator.ValidateAsync(registerAgentDto);
-            if (!validation.IsValid)
-            {
-                return BadRequest(validation.Errors);
-            }
-
-            var result = await _authService.RegisterAgent(registerAgentDto);
-            if (!result.Result.Succeeded)
-            {
-                return BadRequest(result.Result.Errors);
-            }
-
-            return StatusCode(StatusCodes.Status201Created, new
-            {
-                Message = "Agent Registration successful",
                 Email = result.Email,
                 Token = result.Token
             });
