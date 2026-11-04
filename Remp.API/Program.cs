@@ -18,6 +18,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddScoped<IValidator<RegisterRequestDto>, RegisterUserRequestValidator>();
+builder.Services.AddScoped<IValidator<RegisterAgentRequestDto>, RegisterAgentRequestValidator>();
 builder.Services.AddScoped<IValidator<LoginRequestDto>, LoginRequestValidator>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
@@ -62,7 +63,7 @@ builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
-// create user roles -admin/agent
+// data seeding: create roles [admin/agent]
 using (var scope = app.Services.CreateScope())
 {
     var roleManager = scope.ServiceProvider

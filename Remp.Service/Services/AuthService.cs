@@ -24,38 +24,65 @@ namespace Remp.Service.Services
             _configuration = configuration;
         }
 
-        public async Task<RegisterResultDto> Register(RegisterRequestDto registerDto)
+        //Register admin
+        public Task<RegisterResultDto> Register(RegisterRequestDto registerDto)
+        {
+            return RegisterUser(registerDto.Email, registerDto.Password, "Admin", user =>
+            {
+                var photographyCompany = new PhotographyCompany
+                {
+                    Id = user.Id,
+                    PhotographyCompanyName = registerDto.PhotographyCompanyName?.Trim() ?? string.Empty
+                };
+
+                _dbContext.PhotographyCompanies.Add(photographyCompany);
+            });
+        }
+
+        //Register agent
+        public Task<RegisterResultDto> RegisterAgent(RegisterAgentRequestDto registerAgentDto)
+        {
+            return RegisterUser(registerAgentDto.Email, registerAgentDto.Password, "Agent", user =>
+            {
+                var agent = new Agent
+                {
+                    Id = user.Id,
+                    AgentFirstName = registerAgentDto.AgentFirstName,
+                    AgentLastName = registerAgentDto.AgentLastName,
+                    AvatarUrl = registerAgentDto.AvatarUrl?.Trim() ?? string.Empty,
+                    CompanyName = registerAgentDto.CompanyName?.Trim() ?? string.Empty
+                };
+
+                _dbContext.Agents.Add(agent);
+            });
+        }
+
+        private async Task<RegisterResultDto> RegisterUser(
+            string email, string password, string role, Action<User> addProfile)
         {
             using (var transaction = await _dbContext.Database.BeginTransactionAsync())
             {
                 var user = new User
                 {
-                    UserName = registerDto.Email,
-                    Email = registerDto.Email
+                    UserName = email,
+                    Email = email
                 };
 
-                IdentityResult result = await _userManager.CreateAsync(user, registerDto.Password);
+                IdentityResult result = await _userManager.CreateAsync(user, password);
                 if (!result.Succeeded)
                 {
                     return new RegisterResultDto { Result = result };
                 }
 
-                var roleResult = await _userManager.AddToRoleAsync(user, "Admin");
+                var roleResult = await _userManager.AddToRoleAsync(user, role);
                 if (!roleResult.Succeeded)
                 {
                     return new RegisterResultDto { Result = roleResult };
                 }
 
-                var photographyCompany = new PhotographyCompany
-                {
-                    Id = user.Id,
-                    PhotographyCompanyName = registerDto.PhotographyCompanyName
-                };
-
-                _dbContext.PhotographyCompanies.Add(photographyCompany);
+                addProfile(user);
                 await _dbContext.SaveChangesAsync();
 
-                // Generate before committing so a token generation failure rolls back registration.
                 var roles = await _userManager.GetRolesAsync(user);
                 string token = GenerateJwtToken(user, roles);
 

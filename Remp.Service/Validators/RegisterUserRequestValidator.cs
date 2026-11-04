@@ -8,7 +8,7 @@ public class RegisterUserRequestValidator : AbstractValidator<RegisterRequestDto
   public RegisterUserRequestValidator()
   {
     RuleFor(x => x.Email).NotEmpty().EmailAddress();
-    RuleFor(x => x.PhotographyCompanyName).NotEmpty().MaximumLength(60);
+    RuleFor(x => x.PhotographyCompanyName).MaximumLength(50);
     RuleFor(x => x.Password).NotEmpty();
     RuleFor(x => x.ConfirmPassword)
         .Equal(x => x.Password)
