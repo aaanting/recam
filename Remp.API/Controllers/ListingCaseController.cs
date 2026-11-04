@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Remp.DataAccess.Data;
 using Remp.Models.Entities;
 using Remp.Service.DTOs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Remp.API.Controllers
 {
@@ -36,6 +37,7 @@ namespace Remp.API.Controllers
             return Ok(listingCase);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult CreateListingCase([FromBody] ListingCaseCreateDto listingCaseCreateDto)
         {
