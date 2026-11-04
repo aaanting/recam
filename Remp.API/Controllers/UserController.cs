@@ -1,6 +1,8 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Remp.DataAccess.Data;
+using System.Security.Claims;
 
 namespace Remp.API.Controllers
 {
@@ -36,6 +38,17 @@ namespace Remp.API.Controllers
                 return NotFound("Agent not found");
             }
             return Ok(agent);
+        }
+
+        //Get current user
+        [Authorize]
+        [HttpGet("me")]
+        public IActionResult GetCurrentUser()
+        {
+            string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            string? email = User.FindFirstValue(ClaimTypes.Email);
+
+            return Ok(new { Id = userId, Email = email });
         }
 
     }
