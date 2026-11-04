@@ -37,7 +37,6 @@ namespace Remp.API.Controllers
             return Ok(listingCase);
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult CreateListingCase([FromBody] ListingCaseCreateDto listingCaseCreateDto)
         {

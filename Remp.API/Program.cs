@@ -18,7 +18,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddScoped<IValidator<RegisterRequestDto>, RegisterUserRequestValidator>();
-builder.Services.AddScoped<IValidator<RegisterAgentRequestDto>, RegisterAgentRequestValidator>();
+builder.Services.AddScoped<IValidator<CreateAgentRequestDto>, CreateAgentRequestValidator>();
 builder.Services.AddScoped<IValidator<LoginRequestDto>, LoginRequestValidator>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
