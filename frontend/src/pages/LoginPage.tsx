@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import "./LoginPage.css";
 
 function LoginPage() {
@@ -5,7 +6,7 @@ function LoginPage() {
     <main className="login-page">
       <div className="login-heading">
         <h1>Sign in to your account</h1>
-        <div>Don't have and account? Register</div>
+        <p>Don't have an account? <Link to="/register">Register</Link></p>
       </div>
 
       <form className="login-form" onSubmit={(event) => event.preventDefault()}>
