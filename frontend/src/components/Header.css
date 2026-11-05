@@ -1,0 +1,17 @@
+.header {
+  width: 100%;
+  min-height: 72px;
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  background-color: #0285ca;
+  color: white;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.header-logo {
+  height: 40px;
+  width: auto;
+  display: block;
+}

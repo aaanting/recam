@@ -1,10 +1,13 @@
-function App() {
+import Header from "./components/Header";
+import LoginPage from "./pages/LoginPage";
 
+function App() {
   return (
-    <main>
-      <h1>RECAM</h1>
-    </main>
-  )
+    <>
+      <Header />
+      <LoginPage />
+    </>
+  );
 }
 
-export default App
+export default App;

@@ -1,3 +1,4 @@
+frontend
 React + TypeScript + Vite.
 
 ## Development
