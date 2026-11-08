@@ -113,3 +113,7 @@ label.login-field {
   text-decoration: none;
   background-color: #1d4ed8;
 }
+
+.errorMsg {
+  color: red;
+}
