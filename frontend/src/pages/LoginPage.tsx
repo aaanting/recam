@@ -1,7 +1,7 @@
 import { Link } from "react-router";
 import "./LoginPage.css";
 import { useState } from "react";
-import { loginUser } from "../services/AuthService";
+import { loginUser } from "../services/authService";
 
 type LoginPageProps = {
   onLogin: () => void;

@@ -1,0 +1,72 @@
+.dashboard {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 44px 24px;
+}
+
+.title {
+  margin: 0 0 16px;
+  text-align: center;
+  font-size: 24px;
+}
+
+.toolbar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 52%) minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.searchBar {
+  grid-column: 2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 56px;
+  padding: 0 10px;
+  background-color: #f3f3f3;
+  border-radius: 6px;
+}
+
+.searchBar img {
+  flex-shrink: 0;
+}
+
+.search {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+}
+
+.createOrder {
+  grid-column: 3;
+  justify-self: end;
+  height: 52px;
+  padding: 8px;
+  border-radius: 6px;
+  border: none;
+  background: #119fe7;
+  color: white;
+  max-width: 260px;
+}
+
+.tableContainer {
+  overflow-x: auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.orders {
+  width: 100%;
+  text-align: left;
+}
+
+.actions {
+  width: 48px;
+  text-align: center;
+}

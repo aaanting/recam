@@ -1,7 +1,7 @@
 import { Link } from "react-router";
 import "./LoginPage.css";
 import { useState } from "react";
-import { registerUser } from "../services/AuthService";
+import { registerUser } from "../services/authService";
 
 function RegisterPage() {
   // Form inputs
@@ -12,20 +12,16 @@ function RegisterPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [acceptTerms, setAcceptTerms] = useState(false);
 
-  // Form status
   const [registered, setRegistered] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
 
-  // Handle registration
   async function handleRegister() {
-    // Check passwords
     if (password !== confirmPassword) {
       setError("Passwords do not match.");
       return;
     }
 
-    // Check terms
     if (!acceptTerms) {
       setError("Please accept the Terms and Conditions.");
       return;
