@@ -1,8 +1,10 @@
 import { Link } from "react-router";
 import "./LoginPage.css";
 import { useState } from "react";
+import { registerUser } from "../services/AuthService";
 
 function RegisterPage() {
+  // Form inputs
   const [companyName, setCompanyName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -10,32 +12,40 @@ function RegisterPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [acceptTerms, setAcceptTerms] = useState(false);
 
+  // Form status
   const [registered, setRegistered] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
 
-  async function registerUser() {
+  // Handle registration
+  async function handleRegister() {
+    // Check passwords
+    if (password !== confirmPassword) {
+      setError("Passwords do not match.");
+      return;
+    }
+
+    // Check terms
+    if (!acceptTerms) {
+      setError("Please accept the Terms and Conditions.");
+      return;
+    }
+
     setSubmitting(true);
     setError("");
 
     try {
-      const response = await fetch("/api/Auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          photographyCompanyName: companyName,
-          email: email,
-          password: password,
-          confirmPassword: confirmPassword,
-        }),
-      });
+      const response = await registerUser(
+        companyName,
+        email,
+        password,
+        confirmPassword,
+      );
 
       if (response.status === 201) {
         setRegistered(true);
       } else if (response.status === 400) {
-        const errors = await response.json();
+        const errors = await response.json().catch(() => []);
         let errorMessage = "";
 
         if (Array.isArray(errors)) {
@@ -73,24 +83,11 @@ function RegisterPage() {
     }
   }
 
-  function handleRegister() {
-    if (password !== confirmPassword) {
-      setError("Passwords do not match.");
-      return;
-    }
-
-    if (!acceptTerms) {
-      setError("Please accept the Terms and Conditions.");
-      return;
-    }
-
-    registerUser();
-  }
-
   return (
     <main className="login-page">
       <div className="login-heading">
         <h1>Signup Photography Company</h1>
+
         <p>
           Already have an account? <Link to="/login">Sign in</Link>
         </p>
