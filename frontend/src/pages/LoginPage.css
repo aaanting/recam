@@ -73,3 +73,47 @@ label.login-field {
 .login-button:hover {
   background-color: #314461;
 }
+
+.login-heading a {
+  color: #345aa3;
+}
+
+.registration-terms {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 24px;
+  color: #374151;
+}
+
+.registration-success {
+  text-align: center;
+}
+
+.registration-check {
+  display: inline-grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border: 3px solid #16a34a;
+  border-radius: 50%;
+  color: #16a34a;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.registration-success p {
+  color: #6b7280;
+  margin: 0 0 28px;
+}
+
+.registration-sign-in {
+  display: grid;
+  place-items: center;
+  text-decoration: none;
+  background-color: #1d4ed8;
+}
+
+.errorMsg {
+  color: red;
+}
