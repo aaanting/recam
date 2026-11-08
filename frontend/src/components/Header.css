@@ -11,7 +11,20 @@
 }
 
 .header-logo {
-  height: 40px;
+  height: 33px;
   width: auto;
   display: block;
+}
+
+.header-logout {
+  margin-left: auto;
+  background: transparent;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.logout-btn {
+  width: 28px;
+  height: 28px;
 }
