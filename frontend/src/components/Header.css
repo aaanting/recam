@@ -19,7 +19,6 @@
 .header-logout {
   margin-left: auto;
   background: transparent;
-  color: white;
   border: none;
   cursor: pointer;
 }
@@ -27,4 +26,12 @@
 .logout-btn {
   width: 28px;
   height: 28px;
+}
+
+.header-listing-btn {
+  font-size: 16px;
+  background: transparent;
+  border: none;
+  color: white;
+  margin-left: 20px;
 }

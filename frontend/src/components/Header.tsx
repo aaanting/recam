@@ -21,9 +21,18 @@ function Header({ signedIn, onLogout }: HeaderProps) {
       <img src={logo} alt="RECAM" className="header-logo" />
       {signedIn && (
         <button
+          className="header-listing-btn"
+          type="button"
+          onClick={() => navigate("/dashboard")}
+        >
+          Listing Cases
+        </button>
+      )}
+      {signedIn && (
+        <button
           className="header-logout"
           type="button"
-          aria-label="Sign out"
+          aria-label="Logout"
           onClick={handleLogout}
         >
           <img src={logoutIcon} alt="logout" className="logout-btn" />
