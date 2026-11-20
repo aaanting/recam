@@ -34,8 +34,19 @@ namespace Remp.API.Controllers
                 return Unauthorized();
             }
 
-            var agents = _dbContext.Agents.Where(a => a.PhotographyCompanies
-                .Any(c => c.User.Id == userId)).ToList();
+            var agents = _dbContext.Agents
+                .Where(a => !a.User.IsDeleted &&
+                    a.PhotographyCompanies.Any(c => c.Id == userId))
+                .Select(a => new
+                {
+                    a.Id,
+                    a.AgentFirstName,
+                    a.AgentLastName,
+                    a.CompanyName,
+                    a.User.PhoneNumber,
+                    a.User.Email
+                })
+                .ToList();
             return Ok(agents);
         }
 

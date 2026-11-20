@@ -24,9 +24,14 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.Configure<AppInfo>(builder.Configuration.GetSection("AppInfo"));
 
-builder.Services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 builder.Services.AddDbContext<RempDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("RempDb")));
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
 
 builder.Services.AddIdentity<User, IdentityRole>(options =>
 {

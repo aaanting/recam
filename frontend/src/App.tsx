@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router";
+import AgentsPage from "./pages/AgentsPage";
 import DashboardPage from "./pages/DashboardPage";
 import Header from "./components/Header";
 import LoginPage from "./pages/LoginPage";
@@ -26,6 +27,10 @@ function App() {
         <Route
           path="/dashboard"
           element={signedIn ? <DashboardPage /> : <Navigate to="/login" replace />}
+        />
+        <Route
+          path="/agents"
+          element={signedIn ? <AgentsPage /> : <Navigate to="/login" replace />}
         />
         <Route path="/register" element={<RegisterPage />} />
       </Routes>
