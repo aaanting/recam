@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { getListingCases } from "../services/listingCaseService";
 import searchIcon from "../assets/search.svg";
 import styles from "./DashboardPage.module.css";
 
@@ -12,16 +13,9 @@ function DashboardPage() {
   useEffect(() => {
     async function fetchListings() {
       try {
-        const response = await fetch("/api/ListingCase");
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch listings");
-        }
-
-        const data = await response.json();
+        const data = await getListingCases();
         setListings(data);
-      } catch (error) {
-        console.error(error);
+      } catch {
         setError("Could not load listing cases.");
       } finally {
         setLoading(false);
@@ -41,7 +35,7 @@ function DashboardPage() {
   }
 
   return (
-    <main className={styles.dashboard}>
+    <main className={styles.page}>
       <h1 className={styles.title}>Hi, welcome User</h1>
 
       <div className={styles.toolbar}>
@@ -56,13 +50,13 @@ function DashboardPage() {
           />
         </label>
 
-        <button className={styles.createOrder} type="button">
+        <button className={styles.primaryButton} type="button">
           + Create Property
         </button>
       </div>
 
       <div className={styles.tableContainer}>
-        <table className={styles.orders} aria-label="Listing cases">
+        <table className={styles.table} aria-label="Listing cases">
           <thead>
             <tr>
               <th>Property #</th>

@@ -30,6 +30,15 @@ function Header({ signedIn, onLogout }: HeaderProps) {
       )}
       {signedIn && (
         <button
+          className="header-listing-btn"
+          type="button"
+          onClick={() => navigate("/agents")}
+        >
+          Agents
+        </button>
+      )}
+      {signedIn && (
+        <button
           className="header-logout"
           type="button"
           aria-label="Logout"

@@ -35,3 +35,8 @@
   color: white;
   margin-left: 20px;
 }
+
+.header-listing-btn {
+  border-radius: 6px;
+  padding: 8px 12px;
+}
