@@ -8,6 +8,7 @@ function AgentsPage() {
   const [agents, setAgents] = useState<Agent[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     async function fetchAgents() {
@@ -41,7 +42,11 @@ function AgentsPage() {
             placeholder="Search agents..."
           />
         </label>
-        <button className={styles.primaryButton} type="button">
+        <button
+          className={styles.primaryButton}
+          type="button"
+          onClick={() => setShowModal(true)}
+        >
           + Add New Agent
         </button>
       </div>
@@ -77,6 +82,46 @@ function AgentsPage() {
           </tbody>
         </table>
       </div>
+
+      {showModal && (
+        <div className={styles.modalOverlay}>
+          <form className={styles.modal}>
+            <h2>Add New Agent</h2>
+
+            <label>
+              First Name
+              <input type="text" required />
+            </label>
+
+            <label>
+              Last Name
+              <input type="text" required />
+            </label>
+
+            <label>
+              Email
+              <input type="email" required />
+            </label>
+
+            <label>
+              Company Name
+              <input type="text" />
+            </label>
+
+            <label>
+              Phone Number
+              <input />
+            </label>
+
+            <div className={styles.modalButtons}>
+              <button type="button" onClick={() => setShowModal(false)}>
+                Cancel
+              </button>
+              <button type="submit">Add Agent</button>
+            </div>
+          </form>
+        </div>
+      )}
     </main>
   );
 }
