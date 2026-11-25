@@ -74,20 +74,21 @@ namespace Remp.Service.Services
                 };
 
                 _dbContext.Agents.Add(agent);
-            });
+            }, createAgentRequestDto.PhoneNumber?.Trim());
 
             return result;
         }
 
         private async Task<RegisterResultDto> RegisterUser(
-            string email, string password, string role, Action<User> addProfile)
+            string email, string password, string role, Action<User> addProfile, string? phoneNumber = null)
         {
             using (var transaction = await _dbContext.Database.BeginTransactionAsync())
             {
                 var user = new User
                 {
                     UserName = email,
-                    Email = email
+                    Email = email,
+                    PhoneNumber = phoneNumber
                 };
 
                 IdentityResult result = await _userManager.CreateAsync(user, password);

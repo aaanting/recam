@@ -36,3 +36,13 @@ export async function registerUser(
 
   return response;
 }
+
+export function checkToken() {
+  const token = sessionStorage.getItem("token");
+
+  if (!token) {
+    throw new Error("Please sign in.");
+  }
+
+  return token;
+}

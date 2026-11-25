@@ -10,5 +10,6 @@ public class CreateAgentRequestValidator : AbstractValidator<CreateAgentRequestD
         RuleFor(x => x.Email).NotEmpty().EmailAddress();
         RuleFor(x => x.AgentFirstName).NotEmpty().MaximumLength(30);
         RuleFor(x => x.AgentLastName).NotEmpty().MaximumLength(30);
+        RuleFor(x => x.PhoneNumber).MaximumLength(20);
     }
 }
