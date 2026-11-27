@@ -164,7 +164,7 @@ namespace Remp.Service.Services
                     issuer: _configuration["Jwt:Issuer"],
                     audience: _configuration["Jwt:Audience"],
                     claims: claims,
-                    expires: DateTime.UtcNow.AddMinutes(30),
+                    expires: DateTime.UtcNow.AddMinutes(120),
                     signingCredentials: creds);
             return new JwtSecurityTokenHandler().WriteToken(token);
         }

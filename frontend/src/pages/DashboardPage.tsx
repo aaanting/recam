@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getListingCases } from "../services/listingCaseService";
+import CreatePropertyModal from "../components/CreatePropertyModal";
 import searchIcon from "../assets/search.svg";
 import styles from "./DashboardPage.module.css";
 
@@ -9,6 +10,7 @@ function DashboardPage() {
   const [listings, setListings] = useState<ListingCase[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     async function fetchListings() {
@@ -24,6 +26,12 @@ function DashboardPage() {
 
     fetchListings();
   }, []);
+
+  async function handleCreated() {
+    setShowModal(false);
+    const data = await getListingCases();
+    setListings(data);
+  }
 
   function formatDate(date: string) {
     const parts = date.slice(0, 10).split("-");
@@ -50,7 +58,11 @@ function DashboardPage() {
           />
         </label>
 
-        <button className={styles.primaryButton} type="button">
+        <button
+          className={styles.primaryButton}
+          type="button"
+          onClick={() => setShowModal(true)}
+        >
           + Create Property
         </button>
       </div>
@@ -103,6 +115,13 @@ function DashboardPage() {
           </tbody>
         </table>
       </div>
+
+      {showModal && (
+        <CreatePropertyModal
+          onClose={() => setShowModal(false)}
+          onCreated={handleCreated}
+        />
+      )}
     </main>
   );
 }

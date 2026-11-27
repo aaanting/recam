@@ -4,6 +4,7 @@ using Remp.DataAccess.Data;
 using Remp.Models.Entities;
 using Remp.Service.DTOs;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace Remp.API.Controllers
 {
@@ -18,10 +19,31 @@ namespace Remp.API.Controllers
             _dbContext = rempDb;
         }
 
+        [Authorize]
         [HttpGet]
         public ActionResult GetAllListingCases()
         {
-            var listingCases = _dbContext.ListingCases.Where(l => !l.IsDeleted).ToList();
+            // Get the signed-in user's id from the token
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized();
+            }
+
+            var query = _dbContext.ListingCases.Where(l => !l.IsDeleted);
+
+            if (User.IsInRole("Admin"))
+            {
+                // Admin: cases created by this photography company
+                query = query.Where(l => l.UserId == userId);
+            }
+            else
+            {
+                // Agent: cases assigned to this agent
+                query = query.Where(l => l.Agents.Any(a => a.Id == userId));
+            }
+
+            var listingCases = query.ToList();
 
             return Ok(listingCases);
         }
@@ -37,10 +59,17 @@ namespace Remp.API.Controllers
             return Ok(listingCase);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult CreateListingCase([FromBody] ListingCaseCreateDto listingCaseCreateDto)
         {
-            var user = _dbContext.Users.FirstOrDefault(u => u.Id == listingCaseCreateDto.UserId && !u.IsDeleted);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized();
+            }
+
+            var user = _dbContext.Users.FirstOrDefault(u => u.Id == userId && !u.IsDeleted);
             if (user == null)
             {
                 return BadRequest("User not found");
@@ -63,7 +92,7 @@ namespace Remp.API.Controllers
                 FloorArea = listingCaseCreateDto.FloorArea,
                 PropertyType = listingCaseCreateDto.PropertyType,
                 SaleCategory = listingCaseCreateDto.SaleCategory,
-                UserId = listingCaseCreateDto.UserId
+                UserId = userId
             };
 
             _dbContext.ListingCases.Add(listingCase);

@@ -23,6 +23,4 @@ public class ListingCaseCreateDto
 	public SaleCategory SaleCategory { get; set; }
 	public ListcaseStatus ListcaseStatus { get; set; }
 
-	public string UserId { get; set; }
-
 }
